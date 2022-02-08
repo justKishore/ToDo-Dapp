@@ -19,6 +19,8 @@ contract TodoList {
     // event
     event TaskCreated(uint256 id, string content, bool completed);
 
+    event TaskCompleted(uint256 id, bool completed);
+
     //add some task to the list when ever smart contract is deployed. So we use constructor
     constructor() public {
         // default task
@@ -26,9 +28,19 @@ contract TodoList {
     }
 
     // put Task struct inside task mapping
+
+    // creating task
     function createTask(string memory _content) public {
         taskCount++;
         tasks[taskCount] = Task(taskCount, _content, false); //id = taskCount, content = _content, completed = false
         emit TaskCreated(taskCount, _content, false);
+    }
+
+    // Complted task
+    function toggleCompleted(uint256 _id) public {
+        Task memory _task = tasks[_id];
+        _task.completed = !_task.completed;
+        tasks[_id] = _task;
+        emit TaskCompleted(_id, _task.completed);
     }
 }
