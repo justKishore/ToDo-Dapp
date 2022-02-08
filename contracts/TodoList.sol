@@ -16,6 +16,9 @@ contract TodoList {
     //  task = await todoList.tasks(1) in console post compling to see the first task in our contract
     mapping(uint256 => Task) public tasks;
 
+    // event
+    event TaskCreated(uint256 id, string content, bool completed);
+
     //add some task to the list when ever smart contract is deployed. So we use constructor
     constructor() public {
         // default task
@@ -26,5 +29,6 @@ contract TodoList {
     function createTask(string memory _content) public {
         taskCount++;
         tasks[taskCount] = Task(taskCount, _content, false); //id = taskCount, content = _content, completed = false
+        emit TaskCreated(taskCount, _content, false);
     }
 }
